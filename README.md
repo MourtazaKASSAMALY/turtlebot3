@@ -64,6 +64,24 @@ source ~/.bashrc
 ## Arduino Open CR setup
 
 ```bash
+(Only for Raspberry Pi) sudo dpkg --add-architecture armhf only for Raspberry Pi
+(Only for Raspberry Pi) sudo apt-get install libc6:armhf only for Raspberry Pi
+sudo apt-get update
+
+echo 'export OPENCR_PORT=/dev/ttyACM0' >> ~/.bashrc
+echo 'export OPENCR_MODEL=waffle' >> ~/.bashrc
+echo 'export TURTLEBOT3_MODEL=waffle' >> ~/.bashrc
+source ~/.bashrc
+
+rm -rf ./opencr_update.tar.bz2
+wget https://github.com/ROBOTIS-GIT/OpenCR-Binaries/raw/master/turtlebot3/ROS2/latest/opencr_update.tar.bz2
+tar -xjf ./opencr_update.tar.bz2
+cd ~/opencr_update
+sudo chmod a+rw /dev/ttyACM0
+./update.sh $OPENCR_PORT $OPENCR_MODEL.opencr
+
+rm -r opencr_update
+rm -r opencr_update.tar.bz2
 ```
 
 # Usage
