@@ -1,3 +1,5 @@
+Original repository: https://github.com/ROBOTIS-GIT/turtlebot3 | See turtlebot3_onboard.patch
+
 # turtlebot3_onboard
 
 ## Requirements:
