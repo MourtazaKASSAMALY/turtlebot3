@@ -1,0 +1,231 @@
+diff --git a/README.md b/README.md
+old mode 100644
+new mode 100755
+index e0a076b..8211fc6
+--- a/README.md
++++ b/README.md
+@@ -1,15 +1,73 @@
++# turtlebot3_onboard
++
++## Requirements:
++
++- Ubuntu 18.04.5 LTS
++- ROS2 Eloquent
++
++## Create ROS2 Workspace:
++
++```shell
++cd ~
++mkdir -p ros2_worskpace/src
++echo "source ~/ros2_workspace/install/setup.bash" >> ~/.bashrc
++source ~/.bashrc
++```
++
++## Build custom Turtlebot3 packages:
++
++```shell
++cd ~/ros2_workspace/src
++git clone -b eloquent-devel https://github.com/MourtazaKASSAMALY/turtlebot3_onboard.git
++cd ..
++colcon build --symlink-install
++source ~/.bashrc
++```
++
++## Additional packages and configuring for Turtlebot3
++
++```bash
++sudo apt install -y ros-eloquent-dynamixel-sdk
++sudo apt install -y ros-eloquent-turtlebot3-msgs
++```
++
++```bash
++echo "export LC_NUMERIC=\"en_US.UTF-8\"" >> ~/.bashrc
++echo "export ROS_DOMAIN_ID=30" >> ~/.bashrc
++echo "export ROS_LOCALHOST_ONLY=0" >> ~/.bashrc
++echo "export TURTLEBOT3_MODEL=waffle" >> ~/.bashrc
++source ~/.bashrc
++```
++
++## Arduino Open CR setup
++
++```bash
++```
++
++# Usage
++
++Bring up the robot:
++```bash
++ros2 launch turtlebot3_bringup robot.launch.py
++```
++
++Launch the keyboard teleoperation:
++```bash
++ros2 run turtlebot3_teleop teleop_keyboard
++```
++
+ # TurtleBot3
+ <img src="https://github.com/ROBOTIS-GIT/emanual/blob/master/assets/images/platform/turtlebot3/logo_turtlebot3.png" width="300">
+ 
+ ## ROS 1 Packages for TurtleBot3
+ |develop|master|Kinetic + Ubuntu Xenial|Melodic + Ubuntu Bionic|Noetic + Ubuntu Focal|
+ |:---:|:---:|:---:|:---:|:---:|
+-|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=develop)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=master)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=kinetic-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=melodic-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=noetic-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|
++|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=develop)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=master)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=kinetic-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=melodic-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=noetic-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|
+ 
+ ## ROS 2 Packages for TurtleBot3
+-|ros2-devel|ros2|Dashing + Ubuntu Bionic|Eloquent + Ubuntu Bionic|Foxy + Ubuntu Focal|
+-|:---:|:---:|:---:|:---:|:---:|
+-|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=ros2-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=ros2)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=dashing-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=eloquent-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=foxy-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|
++|ros2-devel|ros2|Dashing + Ubuntu Bionic|Foxy + Ubuntu Focal|
++|:---:|:---:|:---:|:---:|
++|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=ros2-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=ros2)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=dashing-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=foxy-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|
+ 
+ ## ROBOTIS e-Manual for TurtleBot3
+ - [ROBOTIS e-Manual for TurtleBot3](http://turtlebot3.robotis.com/)
+diff --git a/turtlebot3_bringup/launch/robot.launch.py b/turtlebot3_bringup/launch/robot.launch.py
+old mode 100644
+new mode 100755
+index 863b92f..86c6781
+--- a/turtlebot3_bringup/launch/robot.launch.py
++++ b/turtlebot3_bringup/launch/robot.launch.py
+@@ -40,9 +40,9 @@ def generate_launch_description():
+             'param',
+             TURTLEBOT3_MODEL + '.yaml'))
+ 
+-    lidar_pkg_dir = LaunchConfiguration(
+-        'lidar_pkg_dir',
+-        default=os.path.join(get_package_share_directory('hls_lfcd_lds_driver'), 'launch'))
++    #lidar_pkg_dir = LaunchConfiguration(
++    #    'lidar_pkg_dir',
++    #    default=os.path.join(get_package_share_directory('hls_lfcd_lds_driver'), 'launch'))
+ 
+     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+ 
+@@ -68,10 +68,10 @@ def generate_launch_description():
+             launch_arguments={'use_sim_time': use_sim_time}.items(),
+         ),
+ 
+-        IncludeLaunchDescription(
+-            PythonLaunchDescriptionSource([lidar_pkg_dir, '/hlds_laser.launch.py']),
+-            launch_arguments={'port': '/dev/ttyUSB0', 'frame_id': 'base_scan'}.items(),
+-        ),
++        #IncludeLaunchDescription(
++        #    PythonLaunchDescriptionSource([lidar_pkg_dir, '/hlds_laser.launch.py']),
++        #    launch_arguments={'port': '/dev/ttyUSB0', 'frame_id': 'laser'}.items(),
++        #),
+ 
+         Node(
+             package='turtlebot3_node',
+diff --git a/turtlebot3_bringup/param/waffle.yaml b/turtlebot3_bringup/param/waffle.yaml
+old mode 100644
+new mode 100755
+index 4693b83..68da4f9
+--- a/turtlebot3_bringup/param/waffle.yaml
++++ b/turtlebot3_bringup/param/waffle.yaml
+@@ -31,7 +31,8 @@ diff_drive_controller:
+   ros__parameters:
+ 
+     odometry:
+-      publish_tf: true
+-      use_imu: true
+-      frame_id: "odom"
++      topic: "wheels_odom"
++      publish_tf: false
++      use_imu: false
++      frame_id: "wheels_odom"
+       child_frame_id: "base_footprint"
+diff --git a/turtlebot3_node/include/turtlebot3_node/odometry.hpp b/turtlebot3_node/include/turtlebot3_node/odometry.hpp
+old mode 100644
+new mode 100755
+index 1ed7cfd..50841ce
+--- a/turtlebot3_node/include/turtlebot3_node/odometry.hpp
++++ b/turtlebot3_node/include/turtlebot3_node/odometry.hpp
+@@ -54,6 +54,8 @@ private:
+ 
+   void joint_state_callback(const sensor_msgs::msg::JointState::SharedPtr joint_state_msg);
+ 
++  void realsense_callback(const nav_msgs::msg::Odometry::SharedPtr realsense_odom_msg);
++
+   void joint_state_and_imu_callback(
+     const std::shared_ptr<sensor_msgs::msg::JointState const> & joint_state_msg,
+     const std::shared_ptr<sensor_msgs::msg::Imu const> & imu_msg);
+@@ -65,6 +67,7 @@ private:
+ 
+   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
+   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_sub_;
++  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr realsense_sub_;
+ 
+   std::shared_ptr<
+     message_filters::Subscriber<sensor_msgs::msg::JointState>> msg_ftr_joint_state_sub_;
+@@ -82,6 +85,7 @@ private:
+ 
+   std::string frame_id_of_odometry_;
+   std::string child_frame_id_of_odometry_;
++  std::string odometry_topic_;
+ 
+   bool use_imu_;
+   bool publish_tf_;
+diff --git a/turtlebot3_node/param/waffle.yaml b/turtlebot3_node/param/waffle.yaml
+old mode 100644
+new mode 100755
+index 4693b83..68da4f9
+--- a/turtlebot3_node/param/waffle.yaml
++++ b/turtlebot3_node/param/waffle.yaml
+@@ -31,7 +31,8 @@ diff_drive_controller:
+   ros__parameters:
+ 
+     odometry:
+-      publish_tf: true
+-      use_imu: true
+-      frame_id: "odom"
++      topic: "wheels_odom"
++      publish_tf: false
++      use_imu: false
++      frame_id: "wheels_odom"
+       child_frame_id: "base_footprint"
+diff --git a/turtlebot3_node/src/odometry.cpp b/turtlebot3_node/src/odometry.cpp
+old mode 100644
+new mode 100755
+index 378e854..5e69d5f
+--- a/turtlebot3_node/src/odometry.cpp
++++ b/turtlebot3_node/src/odometry.cpp
+@@ -38,7 +38,7 @@ Odometry::Odometry(
+ 
+   nh_->declare_parameter("odometry.frame_id");
+   nh_->declare_parameter("odometry.child_frame_id");
+-
++  nh_->declare_parameter("odometry.topic");
+   nh_->declare_parameter("odometry.use_imu");
+   nh_->declare_parameter("odometry.publish_tf");
+ 
+@@ -52,6 +52,11 @@ Odometry::Odometry(
+     publish_tf_,
+     false);
+ 
++  nh_->get_parameter_or<std::string>(
++    "odometry.topic",
++    odometry_topic_,
++    std::string("/odom"));
++
+   nh_->get_parameter_or<std::string>(
+     "odometry.frame_id",
+     frame_id_of_odometry_,
+@@ -63,7 +68,7 @@ Odometry::Odometry(
+     std::string("base_footprint"));
+ 
+   auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
+-  odom_pub_ = nh_->create_publisher<nav_msgs::msg::Odometry>("odom", qos);
++  odom_pub_ = nh_->create_publisher<nav_msgs::msg::Odometry>(odometry_topic_, qos);
+ 
+   tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(nh_);
+ 
+@@ -98,7 +103,8 @@ Odometry::Odometry(
+         this,
+         std::placeholders::_1,
+         std::placeholders::_2));
+-  } else {
++  }
++  else {
+     joint_state_sub_ = nh_->create_subscription<sensor_msgs::msg::JointState>(
+       "joint_states",
+       qos,
