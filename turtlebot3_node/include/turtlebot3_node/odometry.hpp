@@ -54,6 +54,8 @@ private:
 
   void joint_state_callback(const sensor_msgs::msg::JointState::SharedPtr joint_state_msg);
 
+  void realsense_callback(const nav_msgs::msg::Odometry::SharedPtr realsense_odom_msg);
+
   void joint_state_and_imu_callback(
     const std::shared_ptr<sensor_msgs::msg::JointState const> & joint_state_msg,
     const std::shared_ptr<sensor_msgs::msg::Imu const> & imu_msg);
@@ -65,6 +67,7 @@ private:
 
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_sub_;
+  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr realsense_sub_;
 
   std::shared_ptr<
     message_filters::Subscriber<sensor_msgs::msg::JointState>> msg_ftr_joint_state_sub_;
@@ -82,6 +85,7 @@ private:
 
   std::string frame_id_of_odometry_;
   std::string child_frame_id_of_odometry_;
+  std::string odometry_topic_;
 
   bool use_imu_;
   bool publish_tf_;

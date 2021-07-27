@@ -38,7 +38,7 @@ Odometry::Odometry(
 
   nh_->declare_parameter("odometry.frame_id");
   nh_->declare_parameter("odometry.child_frame_id");
-
+  nh_->declare_parameter("odometry.topic");
   nh_->declare_parameter("odometry.use_imu");
   nh_->declare_parameter("odometry.publish_tf");
 
@@ -53,6 +53,11 @@ Odometry::Odometry(
     false);
 
   nh_->get_parameter_or<std::string>(
+    "odometry.topic",
+    odometry_topic_,
+    std::string("/odom"));
+
+  nh_->get_parameter_or<std::string>(
     "odometry.frame_id",
     frame_id_of_odometry_,
     std::string("odom"));
@@ -63,7 +68,7 @@ Odometry::Odometry(
     std::string("base_footprint"));
 
   auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
-  odom_pub_ = nh_->create_publisher<nav_msgs::msg::Odometry>("odom", qos);
+  odom_pub_ = nh_->create_publisher<nav_msgs::msg::Odometry>(odometry_topic_, qos);
 
   tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(nh_);
 
@@ -98,7 +103,8 @@ Odometry::Odometry(
         this,
         std::placeholders::_1,
         std::placeholders::_2));
-  } else {
+  }
+  else {
     joint_state_sub_ = nh_->create_subscription<sensor_msgs::msg::JointState>(
       "joint_states",
       qos,

@@ -1,15 +1,73 @@
+# turtlebot3_onboard
+
+## Requirements:
+
+- Ubuntu 18.04.5 LTS
+- ROS2 Eloquent
+
+## Create ROS2 Workspace:
+
+```shell
+cd ~
+mkdir -p ros2_worskpace/src
+echo "source ~/ros2_workspace/install/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+## Build custom Turtlebot3 packages:
+
+```shell
+cd ~/ros2_workspace/src
+git clone -b eloquent-devel https://github.com/MourtazaKASSAMALY/turtlebot3_onboard.git
+cd ..
+colcon build --symlink-install
+source ~/.bashrc
+```
+
+## Additional packages and configuring for Turtlebot3
+
+```bash
+sudo apt install -y ros-eloquent-dynamixel-sdk
+sudo apt install -y ros-eloquent-turtlebot3-msgs
+```
+
+```bash
+echo "export LC_NUMERIC=\"en_US.UTF-8\"" >> ~/.bashrc
+echo "export ROS_DOMAIN_ID=30" >> ~/.bashrc
+echo "export ROS_LOCALHOST_ONLY=0" >> ~/.bashrc
+echo "export TURTLEBOT3_MODEL=waffle" >> ~/.bashrc
+source ~/.bashrc
+```
+
+## Arduino Open CR setup
+
+```bash
+```
+
+# Usage
+
+Bring up the robot:
+```bash
+ros2 launch turtlebot3_bringup robot.launch.py
+```
+
+Launch the keyboard teleoperation:
+```bash
+ros2 run turtlebot3_teleop teleop_keyboard
+```
+
 # TurtleBot3
 <img src="https://github.com/ROBOTIS-GIT/emanual/blob/master/assets/images/platform/turtlebot3/logo_turtlebot3.png" width="300">
 
 ## ROS 1 Packages for TurtleBot3
 |develop|master|Kinetic + Ubuntu Xenial|Melodic + Ubuntu Bionic|Noetic + Ubuntu Focal|
 |:---:|:---:|:---:|:---:|:---:|
-|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=develop)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=master)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=kinetic-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=melodic-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=noetic-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|
+|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=develop)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=master)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=kinetic-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=melodic-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=noetic-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|
 
 ## ROS 2 Packages for TurtleBot3
-|ros2-devel|ros2|Dashing + Ubuntu Bionic|Eloquent + Ubuntu Bionic|Foxy + Ubuntu Focal|
-|:---:|:---:|:---:|:---:|:---:|
-|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=ros2-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=ros2)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=dashing-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=eloquent-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/turtlebot3.svg?branch=foxy-devel)](https://travis-ci.org/ROBOTIS-GIT/turtlebot3)|
+|ros2-devel|ros2|Dashing + Ubuntu Bionic|Foxy + Ubuntu Focal|
+|:---:|:---:|:---:|:---:|
+|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=ros2-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=ros2)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=dashing-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|[![Build Status](https://travis-ci.com/ROBOTIS-GIT/turtlebot3.svg?branch=foxy-devel)](https://travis-ci.com/ROBOTIS-GIT/turtlebot3)|
 
 ## ROBOTIS e-Manual for TurtleBot3
 - [ROBOTIS e-Manual for TurtleBot3](http://turtlebot3.robotis.com/)
